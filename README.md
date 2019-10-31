@@ -1,47 +1,4 @@
-﻿
 # 拼音输入法作业
-
-## For TA
-
-不确定测试集大不大，可依需求选择以下测试方式。
-（按优先度排序）
-
-**方法1**（4 元 **简化版** DP）：4 元模型 + `--fast`，速度仅次于方法 4。
-+ `pinyin/src$ python -u main.py --load-model ../model/model-4-gram.pkl --n-gram 4 --input-file PATH/TO/INPUT --output-file PATH/TO/OUTPUT --verbose  --fast`
-
-注：因上传大小限制，只传了 4 元模型，加载 4 元模型需要内存约 **20GB**，若不方便测试，可以按以下指令在本地训练一个 3 元模型（需要给正确的 `--dir` 训练集路径）：
-+  `pinyin/src$ python -u main.py --train --dir PATH/TO/sina_news_gbk --encoding gbk --match "^2016" --save-model ../model/model-3-gram.pkl --n-gram 3 --verbose`
-
-**方法2**（3 元 **完整版** DP）：3 元模型，充分发挥能力。
-+ `pinyin/src$ python -u main.py --load-model ../model/model-3-gram.pkl --n-gram 3 --input-file PATH/TO/INPUT --output-file PATH/TO/OUTPUT --verbose`
-
-**方法3**（3 元 **加速×完整版** DP）：3 元模型 +  `--slim`，忽略一些不常见的汉字，可加速 1 倍以上。
-+ `pinyin/src$ python -u main.py --load-model ../model/model-3-gram.pkl --n-gram 3 --input-file PATH/TO/INPUT --output-file PATH/TO/OUTPUT --verbose  --slim`
-
-**方法4**（3 元 **简化版** DP）：3 元模型 + `--fast`，很快。
-+ `pinyin/src$ python -u main.py --load-model ../model/model-3-gram.pkl --n-gram 3 --input-file PATH/TO/INPUT --output-file PATH/TO/OUTPUT --verbose  --fast`
-
-
-方法2（4种中最慢） 所需的时间参考：
-```
-@ te lang pu ti ming bu lu ye te chu ren mei guo neng yuan bu zhang @ -> 特朗普提名补录也特出任美国能源部长, using 4.357e-01 s
-@ xin hua she hua sheng dun @ -> 新华社华盛顿, using 7.961e-02 s
-@ ri dian @ -> 日电, using 3.250e-04 s
-@ ji zhe sun ding @ -> 记者孙定, using 1.388e-01 s
-@ xu jian mei @ -> 徐剑梅, using 3.266e-02 s
-@ mei guo zong tong te lang pu @ -> 美国总统特朗普, using 6.967e-02 s
-@ ri tong guo she jiao mei ti xuan bu @ -> 日通过社交媒体宣布, using 4.597e-01 s
-@ ta ti ming neng yuan bu fu bu zhang dan @ -> 他提名能源部副部长石, using 8.264e-01 s
-@ bu lu ye te chu ren neng yuan bu zhang @ -> 补录也特出任能源部长, using 1.958e-01 s
-@ jie ti ri qian ti chu ci zhi de li ke @ -> 家体日前提出辞职的李克, using 9.211e-01 s
-@ pei li @ -> 赔礼, using 1.066e-02 s
-@ te lang pu dui bu lu ye te de ti ming hai xu de dao mei guo guo hui can yi yuan tou piao pi zhun @ -> 特朗普对补录也特地提名还需得到美国国会参议院投票批准, using 1.244e+00 s
-```
-
-**注意事项**
-模型很大，加载需要一段时间。（待 `Loading` 转为 `Loaded`）
-
-因期待做完后可以分享，来强迫自己做得用心一些，所以下文可能有些乱七八糟的东西（（
 
 ## 介绍
 
@@ -51,7 +8,7 @@ pinyin/src$ python main.py --load-model ../model/model.pkl
 qing hua da xue
 清华大学
 ```
-详见[这里]()。
+详见[这里](https://github.com/siahuat0727/PinYin/blob/master/拼音输入法编程作业.pdf)。
 
 **提供**
 1. 训练语料文件夹 `training_data/sina_new_gbk/`：2016年**新浪新闻**部分内容。（约 4 亿字）
@@ -64,12 +21,12 @@ qing hua da xue
 3. 准确率计算：逐字计算。
 
 
-**代码功能**（均通过命令行参数）：
+**代码功能**（均通过命令行参数）
 1. 只要资源允许，可训练**任意** n 元字模型（n>=2）。
 2. 可依据需求在准确率和速度上做出相应的折中（简化版DP，完整版DP，加速×简化版DP，加速×完整版DP）。
 
 **成果**
-`testing_data/predict.txt`：4 元加速x完整版 DP [预测结果对比](TODO)（字准确率 94.82%）
+1. `testing_data/predict.txt`：4 元加速x完整版 DP [预测结果](https://github.com/siahuat0727/PinYin/blob/master/testing_data/predict.txt) v.s. [正确答案](https://github.com/siahuat0727/PinYin/blob/master/testing_data/news.txt)（字准确率 94.82%）
 
 ## Usage
 
@@ -196,7 +153,7 @@ Saved ../model/model.pkl
 `--slim`：启动删除部分汉字的功能，用于加速（详见`--threshold`）
 `--threshold THRESHOLD`：删除在训练语料中出现次数少于 `threshold` 的汉字
 
-[介绍](TODO) 有例子。
+[介绍](#介绍) 有例子。
 
 ## 算法
 
@@ -252,7 +209,7 @@ $T_{i, *}$： 长度为 $i$ 的最佳前缀
 每个字 $w_i$ 只与前一个字有关，因此从不同 $w_{i-1}$ 结尾的最佳前缀来搜索即可。
 即 $w_{i-2}$ 及之前的字不会影响到当前选择，因此无需考虑以 $w_{i-1}$ 结尾的非最佳前缀。
 
-> 之所以是简化版，是因为在 n>2 的 n 元模型中这个方法找到的就不一定是 “最好” 的句子了，详见[完整版动态规划](TODO)。
+> 之所以是简化版，是因为在 n>2 的 n 元模型中这个方法找到的就不一定是 “最好” 的句子了，详见[完整版动态规划](#解决方案完整版动态规划)。
 
 
 $$P(T_{i, j})  =
@@ -262,7 +219,7 @@ P(w_{i,j}) & \quad  \text{if } i = 1
   \end{cases}$$
 $$T_{i, *} = \mathop{\arg\max}_{T_i \in \{T_{i, 1}, T_{i, 2}, ..., T_{i, |W_i|}\}}P(T_i)$$
 
-> 第一次自己写这类公式，不知道写得对不对清不清楚，有任何错误或建议欢迎指点啦！[GitHub Issue](TODO)
+> 第一次自己写这类公式，不知道写得对不对清不清楚，有任何错误或建议欢迎指点啦！[GitHub Issue](https://github.com/siahuat0727/PinYin/issues)
 
 目标：找到 $T_{m,*}$ 作为输出。
 
@@ -299,7 +256,7 @@ Output: 1234 (the number of times 你 followed by 好)
 可 total
 817610
 ```
-*注：查询 `some_word total` 将给出 `some_word` 出现的总次数，详见[关于 `total` 魔法](TODO)。*
+*注：查询 `some_word total` 将给出 `some_word` 出现的总次数，详见[关于 `total` 魔法](#2-关于-total-魔法)。*
 
 
 
@@ -370,7 +327,7 @@ Output: 1234 (the number of times 你 followed by 好)
 
 实现上引入了`@`作为断句符号。
 
-*注：详见[关于 `@` 魔法](TODO)*
+*注：详见[关于 `@` 魔法](#1-关于--魔法)*
 ```
 pinyin/src$ python main.py --load-model ../model/model-2-gram.pkl --analysis
 
@@ -419,7 +376,7 @@ Output: 1234 (the number of times 你 followed by 好)
 
 > 详细的计算可按上面的方式自行跑一遍。
 
-![](https://i.imgur.com/zfnG8kp.png)
+![](imgs/magic.png)
 
 #### 3. 平滑的作用
 
@@ -439,7 +396,7 @@ $$P_{smooth}(w_i|w_{i-1}) = \lambda P(w_i|w_{i-1})+(1-\lambda)P(w_i)$$
 
 于是 `li ke qiang shi zai ...` -> `李克强是在...`
 
-![](https://i.imgur.com/kQCUp6M.png)
+![](imgs/lambda.png)
 
 
 > Q: 这例子怎么找到的？
@@ -485,7 +442,7 @@ $$P(w_i|w_{i-2},w_{i-1}) = \frac{\#(w_{i-2},w_{i-1},w_i)}{\#(w_{i-2},w_{i-1})} +
 
 > 马六甲（Melaka），马来西亚州属。
 
-![](https://i.imgur.com/o0rMSJG.png)
+![](imgs/n-gram/png)
 
 发现从 2 元模型到 3 元模型的提升显著，3 元模型到 4 元模型的提升较不明显。
 
@@ -573,7 +530,7 @@ P(w_{i,j}) & \quad  \text{if } i = 1
 
 > 这份代码支持**任意 n** 元模型完整版动态规划与暴力法等价，n>=2。
 
-![](https://i.imgur.com/fgORpP1.png)
+![](imgs/perfect.png)
 
 
 **各方法时间复杂度回顾**
@@ -647,7 +604,7 @@ $$P(k_2|k_1) = \frac{ \# (k_1,k_2)}{\# k_1}$$
 
 ### 3. 支持任意元模型的统计和概率计算
 
-省略了实现上的细节，详细见[代码](TODO)。
+省略了实现上的细节，详细见[代码](https://github.com/siahuat0727/PinYin/blob/master/src/main.py)。
 
 统计：
 ```python
@@ -928,5 +885,5 @@ def train(args, ...):
 ## 结语
 
 代码尽力以目前的能力做了简洁与可读性之间的 trade-off，但终究经验不足功力不够，欢迎有缘人的分享与讨论啦！
-> 评论坏了，有任何建议欢迎发 [GitHub Issue](TODO)～
+> 评论坏了，有任何建议欢迎发 [GitHub Issue](https://github.com/siahuat0727/PinYin/issues)～
 > 不知道这样对不对。。。嘛真有人发了再说（（
