@@ -4,20 +4,20 @@
 
 输入拼音，输出汉字。
 ```
-pinyin/src$ python main.py --load-model ../model/model.pkl 
+src$ python main.py --load-model ../model/model.pkl 
 qing hua da xue
 清华大学
 ```
 详见[这里](https://github.com/siahuat0727/PinYin/blob/master/拼音输入法编程作业.pdf)。
 
 **提供**
-1. 训练语料文件夹 `training_data/sina_new_gbk/`：2016年**新浪新闻**部分内容。（约 4 亿字）
+1. `training_data/sina_new_gbk/`：训练语料文件夹，2016年**新浪新闻**部分内容。（约 4 亿字）
 2. `training_data/拼音汉字表.txt` ：拼音汉字映射表。e.g. `a 啊 嗄 腌 吖 阿 锕`
 3. `training_data/一二级汉字表.txt`：汉字表。e.g. `啊阿埃挨哎唉哀皑癌蔼矮艾碍爱...`
 
 **测试**
-1. 测试文字（答案） `testing_data/news.txt`：[爬虫教学](https://blog.csdn.net/qq_33722172/article/details/82469050)爬近期新浪新闻+预处理。（约 8 万字）
-2. 测试拼音（题目）`testing_data/input.txt`：[汉字拼音在线转换](https://www.qqxiuzi.cn/zh/pinyin/)+预处理。
+1. `testing_data/news.txt`：测试文字（答案），[爬虫教学](https://blog.csdn.net/qq_33722172/article/details/82469050)爬近期新浪新闻+预处理。（约 8 万字）
+2. `testing_data/input.txt`：测试拼音（题目），[汉字拼音在线转换](https://www.qqxiuzi.cn/zh/pinyin/)+预处理。
 3. 准确率计算：逐字计算。
 
 
@@ -31,7 +31,7 @@ qing hua da xue
 ## Usage
 
 ```shell
-pinyin/src$ python main.py --help
+src$ python main.py --help
 
 usage: main.py [-h] [--verbose] [--input-file INPUT_FILE]
                [--output-file OUTPUT_FILE] [--load-model LOAD_MODEL]
@@ -106,7 +106,7 @@ training_data$ rm data.zip
 `python main.py --init-words --file FILE [--encoding ENCODING] [--words WORDS] [--verbose]`
 
 ```
-pinyin/src$ python main.py --init-words --file ../training_data/一二级汉字表.txt --encoding gbk --verbose
+src$ python main.py --init-words --file ../training_data/一二级汉字表.txt --encoding gbk --verbose
 
 Loaded ../training_data/一二级汉字表.txt 
 Saved ../model/words.pkl
@@ -115,7 +115,7 @@ Saved ../model/words.pkl
 #### 2. 建立拼音汉字映射表
 `python main.py --init-pinyin-table --file FILE [--encoding ENCODING] [--pinyin-table PINYIN_TABLE] [--verbose]`
 ```
-pinyin/src$ python main.py --init-pinyin-table --file ../training_data/拼音汉字表.txt --encoding gbk --verbose
+src$ python main.py --init-pinyin-table --file ../training_data/拼音汉字表.txt --encoding gbk --verbose
 
 Loaded ../training_data/拼音汉字表.txt 
 Saved ../model/pinyin_table.pkl
@@ -133,7 +133,7 @@ Saved ../model/pinyin_table.pkl
 `--load-model LOAD_MODEL`：可基于已训练的模型继续训练。
 
 ```
-pinyin/src$ python main.py --train --dir ../training_data/sina_news_gbk/ --encoding gbk --match "^2016"  --verbose
+src$ python main.py --train --dir ../training_data/sina_news_gbk/ --encoding gbk --match "^2016"  --verbose
 
 Loaded ../model/words.pkl
 Training files are:
@@ -270,7 +270,7 @@ $$P(w_1,w_2,...,w_m) = \prod_{i=2}^m P(w_i|w_{i-1})$$
 这样显然是不行的，看以下例子：
 
 ```
-pinyin/src$ python main.py --load-model ../model/model-2-gram.pkl --analysis
+src$ python main.py --load-model ../model/model-2-gram.pkl --analysis
 
 Input 2 keys, output the number of times key1 followed by key2.
 For example,
@@ -324,7 +324,7 @@ $$P(w_1,w_2,...,w_m) = P(w_1) \cdot \prod_{i=2}^m P(w_i|w_{i-1})$$
 再让我们看一个例子：
 
 ```
-pinyin/src$ python main.py --load-model ../model/model-2-gram.pkl --analysis
+src$ python main.py --load-model ../model/model-2-gram.pkl --analysis
 
 Input 2 keys, output the number of times key1 followed by key2.
 For example,
@@ -359,7 +359,7 @@ Output: 1234 (the number of times 你 followed by 好)
 
 *注：详见[关于 `@` 魔法](#1-关于--魔法)*
 ```
-pinyin/src$ python main.py --load-model ../model/model-2-gram.pkl --analysis
+src$ python main.py --load-model ../model/model-2-gram.pkl --analysis
 
 Input 2 keys, output the number of times key1 followed by key2.
 For example,
@@ -519,9 +519,7 @@ P(w_{i,j}) & \quad  \text{if } i = 1
 > 从这里也可以推理出 2 元字模型是肯定没能力推荐 `锅底洼` 这个地名的。
 
 ```
-Loading ../model/words.pkl
-Loading ../model/pinyin_table.pkl
-Loading ../model/model-3-gram.pkl
+Loaded ../model/model-3-gram.pkl
 Input 3 keys, output the number of times key1 followed by key2.
 For example,
 Input: 你 好
