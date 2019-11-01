@@ -125,8 +125,11 @@ Saved ../model/pinyin_table.pkl
 `python main.py --train [--file FILE] [--dir DIR] [--match MATCH] [--encoding gbk] [--load-model LOAD_MODEL] [--save-model SAVE_MODEL] [--words WORDS] [--pinyin-table PINYIN_TABLE] [--n-gram N_GRAM] [--verbose]`
 
 `--file FILE`：单档训练。
+
 `--dir DIR`：多档训练。可用 `--match <regular expression>` 来对应该目录底下符合规则的文件。
+
 `--n-gram N_GRAM`：支援训练 n 字元模型，n >= 2。模型向下兼容，如 3 元模型可当 2 元模型用。
+
 `--load-model LOAD_MODEL`：可基于已训练的模型继续训练。
 
 ```
@@ -164,12 +167,19 @@ Saved ../model/model.pkl
 `python main.py --load-model LOAD_MODEL [--n-gram N_GRAM] [--input-file INPUT_FILE] [--output-file OUTPUT_FILE] [--words WORDS] [--pinyin-table PINYIN_TABLE] [--encoding ENCODING] [--alpha ALPHA] [--brute-force] [--fast] [--slim] [--threshold] [--verbose]`
 
 `--n-gram N_GRAM`：选择用 n 元模型来计算。`n >= 2`
+
 `--input-file INPUT_FILE`：可给输入文件（预设stdin），并给相应的`--encoding ENCODING`
+
 `--output-file OUTPUT_FILE`：可给输出文件（预设stdout）
+
 `--alpha ALPHA`：即平滑系数 $\lambda$，详见本文。`0 <= alpha <= 1`
+
 `--brute-force`：用暴力法来搜索。
+
 `--fast`：用简化版动态规划。
+
 `--slim`：启动删除部分汉字的功能，用于加速（详见`--threshold`）
+
 `--threshold THRESHOLD`：删除在训练语料中出现次数少于 `threshold` 的汉字
 
 [介绍](#介绍) 有例子。
