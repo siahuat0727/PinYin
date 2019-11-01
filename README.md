@@ -83,6 +83,25 @@ optional arguments:
 ```
 
 ## 复现步骤+使用方法
+
+#### 0. 下载语料库（2016年部分新浪新闻）
+```
+training_data$ curl -fLo data.zip https://cloud.tsinghua.edu.cn/f/311cdd5c41404b9a940a/?dl=1
+...
+
+training_data$ unzip data.zip
+Archive:  data.zip
+   creating: sina_news_gbk/
+  inflating: sina_news_gbk/2016-09.txt
+  ...
+  
+training_data$ rm data.zip
+```
+
+*注：里面的文件都是 gbk 编码*
+
+> 就不吐槽里面的 README.txt 用 gbk 编码说大家是 utf-8 了（（（
+
 #### 1. 建立中文汉字库
 `python main.py --init-words --file FILE [--encoding ENCODING] [--words WORDS] [--verbose]`
 
@@ -833,7 +852,7 @@ def main():
 
   solve(..., instream, outstream)
 
-  # Need to check whether some file resources was opened
+  # Need to check whether some files were opened
   if args.input_file is not None:
     instream.close()
   if args.output_file is not None:
@@ -857,7 +876,7 @@ def main():
 
   solve(..., **iostreams)
 
-  # Release file resources if any
+  # Release files if any
   for _, f in iostreams.items():
     f.close()
   ...
@@ -880,10 +899,10 @@ def train(args, ...):
     do_train(f)
 ```
 
-推荐阅读：[Python Inner Functions—What Are They Good For?]([https://realpython.com/inner-functions-what-are-they-good-for](https://realpython.com/inner-functions-what-are-they-good-for))
+推荐阅读：[Python Inner Functions—What Are They Good For?](https://realpython.com/inner-functions-what-are-they-good-for)
 
 ## 结语
 
 代码尽力以目前的能力做了简洁与可读性之间的 trade-off，但终究经验不足功力不够，欢迎有缘人的分享与讨论啦！
-> 评论坏了，有任何建议欢迎发 [GitHub Issue](https://github.com/siahuat0727/PinYin/issues)～
+> 有任何建议欢迎发 [GitHub Issue](https://github.com/siahuat0727/PinYin/issues)～
 > 不知道这样对不对。。。嘛真有人发了再说（（
