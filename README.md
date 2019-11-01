@@ -1,5 +1,9 @@
 # 拼音输入法作业
 
+## Blog
+
+由于 GitHub 的 README.md 无法显示 LaTeX，为更好的阅读体验，请浏览 [siahuat0727 Blog](https://siahuat0727.github.io/2019/11/01/pinyin-input-method/)。
+
 ## 介绍
 
 输入拼音，输出汉字。
